@@ -23,19 +23,19 @@ autoinstall:
       - arches: [amd64]
         uri: "http://archive.ubuntu.com/ubuntu/"
   packages:
-    - mc
+#    - mc
     - curl
     - wget
     - sudo
     - tar
     - bzip2
-    - build-essential
+#    - build-essential
     - linux-image-virtual
     - linux-tools-virtual
 #    - linux-cloud-tools-virtual
     - net-tools
   locale: en_US.UTF-8
-  timezone: Europe/Copenhagen
+  timezone: America/Denver
   ssh:
     install-server: true
     allow-pw: true
@@ -49,7 +49,7 @@ autoinstall:
   late-commands:
     #- echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu
     - sed -ie 's/GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX="net.ifnames=0 ipv6.disable=1 biosdevname=0 elevator=noop"/' /target/etc/default/grub
-    - sed -ie 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /target/etc/ssh/sshd_config
+    #- sed -ie 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /target/etc/ssh/sshd_config
     - curtin in-target -- update-grub2
     # virtual package is required for some cloud images. Lack of it causes failure in communication.
     - curtin in-target -- apt-get -y install linux-cloud-tools-virtual||true

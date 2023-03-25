@@ -43,7 +43,10 @@ echo "Provisioning phase 1 - Starting: Mirror, SELinux and basic packages"
 export DEBIAN_FRONTEND=noninteractive
 apt-get clean all -y
 apt-get update -y
-apt-get install pv perl mc net-tools -y
+#apt-get -y install pv   # installed in phase 3
+#apt-get -y install perl 
+#apt-get -y install mc   # installed in phase 3
+apt-get -y install net-tools 
 
 # set locale
 sudo update-locale LANG=en_US.UTF-8
@@ -127,11 +130,22 @@ echo "Provisioning phase 2 - Done"
 echo "Provisioning phase 3 - Starting: Extra packages, timezones, neofetch, firewalld, settings"
 # misc
 echo "Provisioning phase 3 - Timezone"
-timedatectl set-timezone Europe/Copenhagen --no-ask-password
+timedatectl set-timezone America/Denver --no-ask-password
+
 echo "Provisioning phase 3 - Extra Packages or groups"
 export DEBIAN_FRONTEND=noninteractive
 apt-get -y update
-apt-get -y install htop atop iftop iotop firewalld nmap realmd samba nmon samba-common oddjob oddjob-mkhomedir sssd adcli libkrb5-dev libkrb5-3 jq firefox gparted pv neofetch screen telnet ncdu tmux multitail rkhunter smartmontools zsh httpie
+apt-get -y install htop atop iftop iotop nmon 
+#apt-get -y install firewalld 
+apt-get -y install rkhunter
+#apt-get -y install nmap 
+#apt-get -y install realmd samba samba-common oddjob oddjob-mkhomedir sssd adcli libkrb5-dev libkrb5-3  # Active Directory Domain
+apt-get -y install jq httpie
+#apt-get -y install firefox 
+apt-get -y install gparted pv ncdu smartmontools
+apt-get -y install neofetch screen telnet 
+apt-get -y install mc tmux multitail zsh 
+apt-get -y install linux-azure   # https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/supported-ubuntu-virtual-machines-on-hyper-v
 apt-get install -y linux-cloud-tools-virtual||true #may fail on arm64, add check for arm64
 # we don't need sssd
 systemctl disable sssd.service||true
@@ -163,15 +177,15 @@ else
   echo "Provisioning phase 3 - Skipping Hyper-V/SCVMM Daemons"
 fi
 
-echo "Provisioning phase 3 - Firewalld"
-# Firewalld basic configuration.
+echo "Provisioning phase 3 - ufw"
+# ufw basic configuration.
 apt-get install ufw -y
 ufw default deny incoming
 ufw default allow outgoing
 ufw default allow routed
 ufw allow ssh
 if [ "$INSTALL_ZABBIX" == true ]; then
-  echo "Phase 3 - firewalld - adding zabbix rules"
+  echo "Phase 3 - ufw - adding zabbix rules"
   ufw allow 10050:10052/tcp
 fi
 
