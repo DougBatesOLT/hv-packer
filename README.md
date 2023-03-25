@@ -210,7 +210,7 @@ $packer_log=1
   |Zabbix 6.0|zabbix-agent|can be switched on by setting "install_zabbix" to `true`|
   |Puppet 7  |puppet-agent|can be switched off by setting "install_puppet" to false|
   |Webmin |webmin|can be switched on by setting "install_webmin" to `false`|
-  |Cockpit |cockpit|can be switched on by setting "install_zabbix" to `true`|
+  |Cockpit |cockpit|can be switched on by setting "install_cockpit" to `true`|
   |Hyper-V |SCVMM Agent|can be switched off by setting "install_hyperv" to `false`|
   |Neofetch  |neofetch|can be switched off by setting "install_neofetch" to `false`|
   ||||
