@@ -194,7 +194,7 @@ echo "Phase 3 - firewalld - adding cockpit rules"
     ufw allow 9090/tcp
 fi
 systemctl enable ufw
-ufw enable
+ufw --force enable
 ufw status numbered
 
 
